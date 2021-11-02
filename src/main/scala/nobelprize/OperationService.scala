@@ -1,10 +1,5 @@
 package nobelprize
 
-import java.sql.Date
-import java.text.SimpleDateFormat
-import java.util.Calendar
-
-
 
 object OperationService {
   //returns the percent of winners by country code
@@ -26,7 +21,7 @@ object OperationService {
 
     percent
   }
-
+  //returns percent of winners who are still alive
   def getPercentOfWinnersAlive(winners:List[Winner]) : Double = {
     val winnersAlive : Float = ExplorationService.filterByWinnersAlive(winners).length
     val allWins:Float= winners.length
@@ -36,7 +31,7 @@ object OperationService {
     percent
 
   }
-
+//return the average age of winners based on the year of nobel prize
 def getAvgAgeOfWinners(winners:List[Winner]) : Double = {
   var avg : Double = 0
   var sum : Float = 0
@@ -58,7 +53,7 @@ def getAvgAgeOfWinners(winners:List[Winner]) : Double = {
   avg = BigDecimal(avg).setScale(2, BigDecimal.RoundingMode.HALF_UP).toDouble
   avg
 }
-
+  //return the average age of winners by gender
   def getAvgAgeOfWinnersByGender(winners:List[Winner], gender:String) : Double = {
     val genderList = ExplorationService.filterByGender(winners, gender)
 
@@ -66,6 +61,7 @@ def getAvgAgeOfWinners(winners:List[Winner]) : Double = {
 
     avg
   }
+  //returns the number of winners by year
   def getWinnersCountByYear(winners:List[Winner], year:String) : Int = {
     val count =  winners
       .filter(w  => w.nobelPrize.year.equals(year)).length
