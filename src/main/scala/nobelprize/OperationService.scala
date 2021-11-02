@@ -1,0 +1,5 @@
+package nobelprize
+
+object OperationService {
+
+}
