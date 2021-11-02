@@ -19,20 +19,37 @@ object main {
 
 
       //TEST OF EXPLORATION SERVICE
-      val malesInMedicine =   ExplorationService.filterByCategory(listofwinners, "medicine")
-      val males = ExplorationService.filterByGender(malesInMedicine, "male")
-      ExplorationService.findTheMostYoungWinner(males)
+      //val malesInMedicine =   ExplorationService.filterByCategory(listofwinners, "medicine")
+      //val males = ExplorationService.filterByGender(malesInMedicine, "male")
+      //ExplorationService.findTheMostYoungWinner(males)
      // for ( i <- ExplorationService.filterByWinnersAlive(listofwinners)) println(i)
      // for ( i <- ExplorationService.sort(listofwinners, ExplorationService.byFirstname)) println(i)
+      //TEST of OPERATION SERVICE
+     val percentCountry = OperationService.getWinnersPercentByCountryCode(listofwinners, "US")
+      println(percentCountry)
 
+      val genderPercent = OperationService.getPercentOfWinnersByGender(listofwinners, "female")
+      println(genderPercent)
 
+      val percentAlive = OperationService.getPercentOfWinnersAlive(listofwinners)
+      println(percentAlive)
+      val avg = OperationService.getAvgAgeOfWinners(listofwinners)
+      println(avg)
+
+      val avgAgeFemale = OperationService.getAvgAgeOfWinnersByGender(listofwinners,"female" )
+      println(avgAgeFemale)
+
+      val winnersByYear = OperationService.getWinnersCountByYear(listofwinners, "2009")
+      println(winnersByYear)
 
       reader.close
     } catch {
       case ex:Exception => println("Cannot read the file " + ex.getMessage)
     }
 
+
   }
+
 
 
 
