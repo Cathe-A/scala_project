@@ -1,7 +1,9 @@
 package nobelprize
 
 import com.github.tototoshi.csv.CSVReader
+
 import java.io.File
+import java.util.Scanner
 import scala.collection.mutable.ListBuffer
 
 /**
@@ -28,62 +30,99 @@ object main {
 
 
       println("----------------------------------DATA MANIPULATION------------------------")
+      println("-------------------------------UNCOMMENT LINE TO SEE THE RESULT------------------------")
+
+
 
       /*----------TEST OF EXPLORATION SERVICE----------*/
-      val personsInMedicine =   ExplorationService.filterByCategory(listofwinners, "medicine")
-      // for ( i <- personsInMedicine) println(i)
-
-      val males = ExplorationService.filterByGender(personsInMedicine, "male")
-      // for ( i <- males) println(i)
-
-      val youngest = ExplorationService.findTheMostYoungWinner(males)
-     // println(youngest)
-
-      val winnersAlive = ExplorationService.filterByWinnersAlive(listofwinners)
-     // for ( i <- ExplorationService.filterByWinnersAlive(listofwinners)) println(i)
-
-      val wins = ExplorationService.allWinnersByCountryCode(listofwinners, "US")
-      // for ( i <- wins) println(i)
-
-      val oldestWinners = ExplorationService.oldestWinnersOfEachCategory(listofwinners)
-      //for ( i <- oldestWinners) println(i)
-
-      /*-----Sort: we can pass the function of sort in the parameter to sort the data------*/
-
-      val sortedByFirstname = Sorter.sort(listofwinners, Sorter.byFirstnameDescending);
-      // for ( i <- sortedByFirstname) println(i)
-
-      val sortedByCategory = Sorter.sort(listofwinners, Sorter.byCategoryDescending);
-      // for ( i <- sortedByCategory) println(i)
-
-      val sortedByYearPrize = Sorter.sort(listofwinners, Sorter.byYearPrize);
-      // for ( i <- sortedByYearPrize) println(i)
 
 
+      val category = "medicine"
+      val gender = "male"
+      val countryCode = "US"
+
+      val scanner:Scanner = new java.util.Scanner(System.in)
+      var continue:Boolean = true
 
 
-
-      /*----------TEST of OPERATION SERVICE----------*/
-      val percentCountry = OperationService.getWinnersPercentByCountryCode(listofwinners, "US")
-      println(percentCountry)
-
-      val genderPercent = OperationService.getPercentOfWinnersByGender(listofwinners, "female")
-      println(genderPercent)
-
-      val percentAlive = OperationService.getPercentOfWinnersAlive(listofwinners)
-      println(percentAlive)
-      val avg = OperationService.getAvgAgeOfWinners(listofwinners)
-      println(avg)
-
-      val avgAgeFemale = OperationService.getAvgAgeOfWinnersByGender(listofwinners,"female" )
-      println(avgAgeFemale)
-
-      val winnersByYear = OperationService.getWinnersCountByYear(listofwinners, "2009")
-      println(winnersByYear)
+      while (continue){
+        println("\n\nChoose the Exploration service you would like to test: ")
+        println(s"1. Filter by category: $category")
+        println(s"2. Filter by gender: $gender")
+        println("3. Find the youngest winner")
+        println("4. Filter all winners alive")
+        println(s"5. Filter all winners by countrycode: $countryCode")
+        println("6. Find the oldest winner for each category of nobel prize")
+        println("7. Sort the list of data by Firstname")
+        println("8. Sort the list of data by Category")
+        println("9. Sort the list of data by the year of Prize")
+        println("10. Complex filtering using filterByCategory,filterByGender, filterByWinnersAlive ")
+        println("11. Print all Operation Service")
+        println("0. Exit")
 
 
+         val choice = scanner.nextInt()
 
 
+          choice match {
+            case 1 =>  {
+              val personsInCategory =   ExplorationService.filterByCategory(listofwinners, category)
+              for ( i <- personsInCategory) println(i)
+            }
+            case 2 => {
+              val personsByGender = ExplorationService.filterByGender(listofwinners, gender)
+              for ( i <- personsByGender) println(i)
+            }
+            case 3 => {
+              val youngest = ExplorationService.findTheMostYoungWinner(listofwinners)
+              println(youngest)
+            }
+            case 4 => {
+              val winnersAlive = ExplorationService.filterByWinnersAlive(listofwinners)
+               for ( i <- winnersAlive) println(i)
+            }
+            case 5 => {
+              val winnersByCountryCode = ExplorationService.allWinnersByCountryCode(listofwinners, countryCode)
+              for ( i <- winnersByCountryCode) println(i)
+            }
+            case 6 => {
+              val oldestWinners = ExplorationService.oldestWinnersOfEachCategory(listofwinners)
+              for ( i <- oldestWinners) println(i)
+            }
+            /*-----Sort: we can pass the function of sort in the parameter to sort the data------*/
+            case 7 => {
+              val sortedByFirstname = Sorter.sort(listofwinners, Sorter.byFirstnameAscending);
+                for ( i <- sortedByFirstname) println(i)
+            }
+            case 8 => {
+              val sortedByCategory = Sorter.sort(listofwinners, Sorter.byCategoryAscending);
+                for ( i <- sortedByCategory) println(i)
+            }
+            case 9 => {
+              val sortedByYearPrize = Sorter.sort(listofwinners, Sorter.byYearPrize);
+              for ( i <- sortedByYearPrize) println(i)
+            }
+            case 10 => {
+              val personsInCategory =    ExplorationService
+                .filterByWinnersAlive(ExplorationService
+                  .filterByGender(ExplorationService
+                    .filterByCategory(listofwinners, category), gender) )
+              for ( i <- personsInCategory) println(i)
+
+            }
+            case 11 => {
+                allOperationServices(listofwinners)
+            }
+            case 0 => {
+              continue = false
+            }
+            case _ => {
+                println("You need to choose the value from 0 to 11 ! ")
+            }
+
+          }
+
+      }
 
       reader.close
     } catch {
@@ -91,6 +130,45 @@ object main {
     }
 
   }
+
+
+  /**
+   * Test of Operation service
+   * @param listofwinners
+   */
+  def allOperationServices (listofwinners:List[Winner]): Unit ={
+
+    val countryCode = "US"
+    val gender = "female"
+    val year = "2009"
+
+    println("--------Operation Service-----------")
+
+    val percentCountry = OperationService.getWinnersPercentByCountryCode(listofwinners, countryCode)
+    println(s"Percent of winners by $countryCode: $percentCountry")
+
+    val genderF = "female"
+    val genderPercent = OperationService.getPercentOfWinnersByGender(listofwinners, genderF)
+    println(s"Percent of winners by $gender: $genderPercent")
+
+    val percentAlive = OperationService.getPercentOfWinnersAlive(listofwinners)
+    println(s"Percent of winners alive: $percentAlive")
+
+    val avg = OperationService.getAvgAgeOfWinners(listofwinners)
+    println(s"Average age of winners is $avg years")
+
+    val avgAgeFemale = OperationService.getAvgAgeOfWinnersByGender(listofwinners, gender)
+    println(s"Average age of winners by $gender gender is  $avgAgeFemale years")
+
+    val winnersByYear = OperationService.getWinnersCountByYear(listofwinners, year)
+    println(s"Winners by year $year is $winnersByYear")
+
+  }
+
+
+
+
+
 
 
   /**

@@ -1,13 +1,14 @@
 package nobelprize
 
-import java.sql.Date
-import java.text.SimpleDateFormat
-import java.util.Calendar
-
-
 
 object OperationService {
-  //returns the percent of winners by country code
+
+  /**
+   * Calculates percentage of nobel prize winners by country code
+   * @param winners List of nobel prize winners
+   * @param countryCode Country code e.g. "US"
+   * @return percent value
+   */
   def getWinnersPercentByCountryCode(winners:List[Winner], countryCode:String) : Double = {
     val countryWins: Float = ExplorationService.allWinnersByCountryCode(winners, countryCode).length
     val allWins:Float= winners.length
@@ -16,7 +17,13 @@ object OperationService {
 
     percent
   }
-  //returns the percent of winners by gender
+
+  /**
+   * Calculates percentage of nobel prize winners by gender
+   * @param winners List of nobel prize winners
+   * @param gender "male" or "female"
+   * @return percent value
+   */
   def getPercentOfWinnersByGender(winners:List[Winner], gender:String) : Double = {
     val genderCount: Float = ExplorationService.filterByGender(winners, gender).length
     val allWins:Float= winners.length
@@ -26,7 +33,11 @@ object OperationService {
 
     percent
   }
-
+  /**
+   * Calculates percentage of nobel prize winners who are still alive
+   * @param winners List of nobel prize winners
+   * @return percent value
+   */
   def getPercentOfWinnersAlive(winners:List[Winner]) : Double = {
     val winnersAlive : Float = ExplorationService.filterByWinnersAlive(winners).length
     val allWins:Float= winners.length
@@ -37,6 +48,11 @@ object OperationService {
 
   }
 
+  /**
+   * Calculates the average age of winners based on the year of nobel prize
+   * @param winners List of nobel prize winners
+   * @return average value
+   */
   def getAvgAgeOfWinners(winners:List[Winner]) : Double = {
     var avg : Double = 0
     var sum : Float = 0
@@ -59,6 +75,12 @@ object OperationService {
     avg
   }
 
+  /**
+   * Calculates the average age of winners based on the year of nobel prize by gender
+   * @param winners List of nobel prize winners
+   * @param gender "male" or "female"
+   * @return average value
+   */
   def getAvgAgeOfWinnersByGender(winners:List[Winner], gender:String) : Double = {
     val genderList = ExplorationService.filterByGender(winners, gender)
 
@@ -66,6 +88,12 @@ object OperationService {
 
     avg
   }
+  /**
+   * Calculates the number of winners by year
+   * @param winners List of nobel prize winners
+   * @param year year of the nobel prize
+   * @return number of winners
+   */
   def getWinnersCountByYear(winners:List[Winner], year:String) : Int = {
     val count =  winners
       .filter(w  => w.nobelPrize.year.equals(year)).length

@@ -26,7 +26,7 @@ case class Person(id:String, firstname:String, surname:String,
 
 
   override def toString() : String = {
-                                        id +  s" Firstname: $firstname Surname: $surname " +
+                                        id +  s" Firstname: $firstname Surname: $surname Gender: $gender " +
                                         s"Borncountry: $bornCountry Born: $born Died: $died " +
                                         s"Year of nobelPrize: ${nobelPrize.year} " +
                                         s"Category: ${nobelPrize.category} "
