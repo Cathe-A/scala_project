@@ -30,7 +30,7 @@ object main {
 
 
       println("----------------------------------DATA MANIPULATION------------------------")
-      println("-------------------------------UNCOMMENT LINE TO SEE THE RESULT------------------------")
+
 
 
 
@@ -147,8 +147,8 @@ object main {
     val percentCountry = OperationService.getWinnersPercentByCountryCode(listofwinners, countryCode)
     println(s"Percent of winners by $countryCode: $percentCountry")
 
-    val genderF = "female"
-    val genderPercent = OperationService.getPercentOfWinnersByGender(listofwinners, genderF)
+
+    val genderPercent = OperationService.getPercentOfWinnersByGender(listofwinners, gender)
     println(s"Percent of winners by $gender: $genderPercent")
 
     val percentAlive = OperationService.getPercentOfWinnersAlive(listofwinners)
